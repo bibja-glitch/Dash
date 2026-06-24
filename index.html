@@ -42,121 +42,40 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-        /* Дата фильтры */
-        .date-filter-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            padding: 4px 12px 4px 16px;
+        .time-filter {
+            padding: 10px 16px;
             border-radius: 12px;
             border: 1px solid #cbd5e1;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            flex-wrap: wrap;
-        }
-        .date-filter-group label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #475569;
-        }
-        .date-filter-group input[type="date"] {
-            border: none;
-            padding: 8px 4px;
-            font-family: inherit;
-            font-size: 13px;
-            color: #0f172a;
-            background: transparent;
-            outline: none;
-            width: 130px;
-            cursor: pointer;
-        }
-        .date-filter-group input[type="date"]::-webkit-calendar-picker-indicator {
-            opacity: 0.6;
-            padding: 4px;
-        }
-        .date-filter-group .separator {
-            color: #94a3b8;
-            font-weight: 300;
-            padding: 0 2px;
-        }
-        .date-filter-buttons {
-            display: flex;
-            gap: 6px;
-            margin-left: 4px;
-        }
-        .date-filter-buttons button {
-            border: none;
-            background: transparent;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.15s, color 0.15s;
-            color: #475569;
-            white-space: nowrap;
-        }
-        .date-filter-buttons button:hover {
-            background: #f1f5f9;
-        }
-        .date-filter-buttons button.primary {
-            background: #e2e8f0;
-            color: #0f172a;
-        }
-        .date-filter-buttons button.primary:hover {
-            background: #cbd5e1;
-        }
-        .date-filter-buttons button.clear {
-            color: #dc2626;
-        }
-        .date-filter-buttons button.clear:hover {
-            background: #fef2f2;
-        }
-
-        /* Кнопка обновления */
-        .refresh-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
             background: white;
-            border: 1px solid #cbd5e1;
-            border-radius: 12px;
-            padding: 8px 16px;
             font-family: inherit;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             color: #334155;
             cursor: pointer;
-            transition: all 0.15s;
+            outline: none;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            white-space: nowrap;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22none%22%20stroke%3D%22%23475569%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px top 50%;
+            background-size: 16px auto;
+            padding-right: 40px;
+            transition: border-color 0.2s;
         }
-        .refresh-btn:hover {
-            background: #f1f5f9;
+        .time-filter:hover {
             border-color: #94a3b8;
         }
-        .refresh-btn:active {
-            transform: scale(0.96);
-        }
-        .refresh-btn .icon {
-            display: inline-block;
-            transition: transform 0.5s ease;
-        }
-        .refresh-btn.spinning .icon {
-            transform: rotate(360deg);
-        }
-
         .status {
             background: white;
-            padding: 8px 16px;
+            padding: 10px 16px;
             border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             border: 1px solid #cbd5e1;
             font-weight: 500;
-            font-size: 13px;
+            font-size: 14px;
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         .status .dot {
             width: 8px;
@@ -367,43 +286,17 @@
                 gap: 16px;
             }
         }
-        @media (max-width: 992px) {
-            .date-filter-group {
-                flex-wrap: wrap;
-                padding: 8px 12px;
-            }
-            .date-filter-group input[type="date"] {
-                width: 120px;
-            }
-            .header-controls {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-            .date-filter-group {
-                justify-content: center;
-            }
-            .date-filter-buttons {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .refresh-btn, .status {
-                justify-content: center;
-            }
-        }
         @media (max-width: 768px) {
             body { padding: 12px; }
-            .header h1 { font-size: 22px; width: 100%; text-align: center; }
-            .header-controls { width: 100%; }
+            .header h1 { font-size: 22px; width: 100%; }
+            .header-controls { width: 100%; flex-direction: column; align-items: stretch; gap: 10px; }
+            .time-filter { width: 100%; }
+            .status { justify-content: center; }
             .kpi-grid { grid-template-columns: 1fr; gap: 10px; }
             .kpi-card { padding: 16px; flex-direction: row; justify-content: space-between; align-items: center; }
             .kpi-value { font-size: 22px; }
             .table-card { padding: 12px; }
             th, td { padding: 10px 12px; }
-            .date-filter-group input[type="date"] { width: 100%; }
-            .date-filter-group { flex-direction: column; align-items: stretch; }
-            .date-filter-buttons { justify-content: stretch; }
-            .date-filter-buttons button { flex: 1; text-align: center; }
         }
     </style>
 </head>
@@ -413,24 +306,12 @@
         <div class="header">
             <h1>📊 Evrozabor Luxe</h1>
             <div class="header-controls">
-                <!-- Фильтр по датам: календарь -->
-                <div class="date-filter-group">
-                    <label for="dateFrom">С</label>
-                    <input type="date" id="dateFrom" />
-                    <span class="separator">—</span>
-                    <label for="dateTo">По</label>
-                    <input type="date" id="dateTo" />
-                    <div class="date-filter-buttons">
-                        <button class="primary" id="applyDateBtn">Применить</button>
-                        <button class="clear" id="clearDateBtn">Сбросить</button>
-                    </div>
-                </div>
-                <!-- Кнопка обновления -->
-                <button class="refresh-btn" id="refreshBtn">
-                    <span class="icon">⟳</span>
-                    <span>Обновить</span>
-                </button>
-                <!-- Статус -->
+                <select id="timeFilter" class="time-filter" onchange="applyFilter()">
+                    <option value="all">За все время</option>
+                    <option value="month">В этом месяце</option>
+                    <option value="week">За последние 7 дней</option>
+                    <option value="today">За сегодня</option>
+                </select>
                 <div class="status" id="statusIndicator">
                     <span class="dot"></span>
                     <span id="statusText">Загрузка...</span>
@@ -465,7 +346,8 @@
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyeevuA1MTvQ09j-qcUWTPhArFe6k4Szilx6DB1kzEcnceA3ETJ1636AUpj8tRpldiZ8w/exec';
-        
+        const REFRESH_INTERVAL = 60000;
+
         // Список категорий расходов
         const EXPENSE_CATEGORIES = [
             'Материал', 'Заливка', 'Установка', 'Доставка', 'Аренда', 'Зарплата', 
@@ -474,19 +356,7 @@
         ];
 
         let allTransactions = []; 
-        let lastUpdateTime = null;
 
-        // DOM элементы
-        const dateFrom = document.getElementById('dateFrom');
-        const dateTo = document.getElementById('dateTo');
-        const applyDateBtn = document.getElementById('applyDateBtn');
-        const clearDateBtn = document.getElementById('clearDateBtn');
-        const refreshBtn = document.getElementById('refreshBtn');
-        const statusText = document.getElementById('statusText');
-        const statusDot = document.querySelector('#statusIndicator .dot');
-        const statusContainer = document.getElementById('statusIndicator');
-
-        // ====== Вспомогательные функции ======
         function formatCurrency(num) {
             return num.toLocaleString('ru-RU') + ' ₸';
         }
@@ -497,23 +367,16 @@
         }
 
         function setStatus(text, isError = false) {
+            const dot = document.querySelector('#statusIndicator .dot');
+            const statusText = document.getElementById('statusText');
             statusText.textContent = text;
+            const container = document.getElementById('statusIndicator');
             if (isError) {
-                statusContainer.classList.add('error');
-                statusDot.style.background = '#ef4444';
+                container.classList.add('error');
+                dot.style.background = '#ef4444';
             } else {
-                statusContainer.classList.remove('error');
-                statusDot.style.background = '#10b981';
-            }
-        }
-
-        function setLastUpdateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-            lastUpdateTime = timeStr;
-            // Если статус не ошибка, показываем время обновления
-            if (!statusContainer.classList.contains('error')) {
-                setStatus(`Обновлено ${timeStr}`, false);
+                container.classList.remove('error');
+                dot.style.background = '#10b981';
             }
         }
 
@@ -533,11 +396,8 @@
             );
         }
 
-        // ====== Загрузка данных ======
-        async function fetchData() {
-            // Анимация вращения иконки
-            refreshBtn.classList.add('spinning');
-            setStatus('Загрузка...', false);
+        async function fetchAndRender() {
+            setStatus('Обновление...', false);
             try {
                 const response = await fetch(SCRIPT_URL);
                 if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
@@ -552,55 +412,34 @@
                     dateObj: parseDate(item.date)
                 })).sort((a, b) => a.dateObj - b.dateObj);
 
-                // Применяем текущий фильтр и обновляем дашборд
                 applyFilter();
-                setLastUpdateTime();
+                setStatus(`Обновлено в ${new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'})}`, false);
             } catch (error) {
                 console.error(error);
                 setStatus('Ошибка загрузки', true);
-            } finally {
-                refreshBtn.classList.remove('spinning');
             }
-        }
-
-        // ====== Фильтрация по датам ======
-        function getDateFilter() {
-            const from = dateFrom.value;
-            const to = dateTo.value;
-            let fromDate = null, toDate = null;
-            if (from) {
-                fromDate = new Date(from);
-                fromDate.setHours(0,0,0,0);
-            }
-            if (to) {
-                toDate = new Date(to);
-                toDate.setHours(23,59,59,999);
-            }
-            return { fromDate, toDate };
         }
 
         function applyFilter() {
-            const { fromDate, toDate } = getDateFilter();
+            const filterValue = document.getElementById('timeFilter').value;
             let filtered = allTransactions;
+            const now = new Date();
 
-            if (fromDate) {
-                filtered = filtered.filter(t => t.dateObj >= fromDate);
-            }
-            if (toDate) {
-                filtered = filtered.filter(t => t.dateObj <= toDate);
+            if (filterValue === 'month') {
+                const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                filtered = allTransactions.filter(t => t.dateObj >= startOfMonth);
+            } else if (filterValue === 'week') {
+                const startOfWeek = new Date(now);
+                startOfWeek.setDate(now.getDate() - 7);
+                filtered = allTransactions.filter(t => t.dateObj >= startOfWeek);
+            } else if (filterValue === 'today') {
+                const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                filtered = allTransactions.filter(t => t.dateObj >= startOfDay);
             }
 
             updateDashboard(filtered);
         }
 
-        // ====== Сброс фильтра ======
-        function clearDateFilter() {
-            dateFrom.value = '';
-            dateTo.value = '';
-            applyFilter();
-        }
-
-        // ====== Обновление дашборда ======
         function updateDashboard(transactions) {
             let totalIncome = 0;
             let totalExpense = 0;
@@ -631,7 +470,7 @@
                 </div>
             `;
 
-            // Рендер Топ-5 расходов на чистом CSS
+            // Рендер Топ-5 расходов на чистом CSS (красивые аккуратные полоски)
             const sortedExpenses = Object.entries(expenseByCategory)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 5);
@@ -749,41 +588,8 @@
             table.innerHTML = theadHTML + tbodyHTML;
         }
 
-        // ====== Инициализация событий ======
-        applyDateBtn.addEventListener('click', applyFilter);
-        clearDateBtn.addEventListener('click', clearDateFilter);
-        refreshBtn.addEventListener('click', fetchData);
-
-        // Загрузка данных при открытии страницы
-        window.addEventListener('DOMContentLoaded', () => {
-            // Попытка восстановить последние даты из localStorage
-            const savedFrom = localStorage.getItem('evrozabor_dateFrom');
-            const savedTo = localStorage.getItem('evrozabor_dateTo');
-            if (savedFrom) dateFrom.value = savedFrom;
-            if (savedTo) dateTo.value = savedTo;
-            
-            fetchData();
-        });
-
-        // Сохраняем выбранные даты в localStorage при изменении
-        dateFrom.addEventListener('change', () => {
-            localStorage.setItem('evrozabor_dateFrom', dateFrom.value);
-        });
-        dateTo.addEventListener('change', () => {
-            localStorage.setItem('evrozabor_dateTo', dateTo.value);
-        });
-
-        // Также сохраняем при применении фильтра (на случай, если пользователь ввёл даты вручную)
-        applyDateBtn.addEventListener('click', () => {
-            localStorage.setItem('evrozabor_dateFrom', dateFrom.value);
-            localStorage.setItem('evrozabor_dateTo', dateTo.value);
-        });
-        clearDateBtn.addEventListener('click', () => {
-            localStorage.removeItem('evrozabor_dateFrom');
-            localStorage.removeItem('evrozabor_dateTo');
-        });
-
-        console.log('📊 Evrozabor Luxe Dashboard v2.1 (с календарём и ручным обновлением)');
+        fetchAndRender();
+        setInterval(fetchAndRender, REFRESH_INTERVAL);
     </script>
 </body>
 </html>
