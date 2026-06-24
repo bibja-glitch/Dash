@@ -1,0 +1,472 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Финансовый дашборд (Live)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+            color: #1e293b;
+        }
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+        .status.error .dot {
+            background: #ef4444;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .kpi-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: all 0.2s ease;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        }
+        .kpi-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .kpi-detail {
+            font-size: 13px;
+            color: #475569;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .income .kpi-value { color: #059669; }
+        .expense .kpi-value { color: #dc2626; }
+        .balance .kpi-value { color: #2563eb; }
+        .transactions .kpi-value { color: #7c3aed; }
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .chart-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+        }
+        .chart-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        .table-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            margin-top: 30px;
+            border: 1px solid #f1f5f9;
+            overflow-x: auto;
+        }
+        .table-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th {
+            background: #f8fafc;
+            text-align: left;
+            padding: 12px;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .income-row td:first-child { color: #059669; font-weight: 500; }
+        .expense-row td:first-child { color: #dc2626; font-weight: 500; }
+        @media (max-width: 768px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-row { grid-template-columns: 1fr; }
+            .header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>📊 Финансовый дашборд</h1>
+            <div class="status" id="statusIndicator">
+                <span class="dot"></span>
+                <span id="statusText">Загрузка данных...</span>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpiContainer"></div>
+
+        <!-- Charts row 1: Doughnut + Bar -->
+        <div class="charts-row">
+            <div class="chart-card">
+                <h3>🥧 Структура расходов</h3>
+                <canvas id="expenseDoughnut"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>📈 Доходы vs Расходы по дням</h3>
+                <canvas id="dailyBar"></canvas>
+            </div>
+        </div>
+
+        <!-- Full-width cumulative balance line chart -->
+        <div class="chart-card full-width">
+            <h3>💰 Накопительный баланс (хронология)</h3>
+            <canvas id="cumulativeLine"></canvas>
+        </div>
+
+        <!-- Transactions table -->
+        <div class="table-card">
+            <h3>📋 Последние операции</h3>
+            <table id="transactionTable">
+                <thead>
+                    <tr>
+                        <th>Дата и время</th>
+                        <th>Тип</th>
+                        <th>Категория</th>
+                        <th>Сумма, ₽</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // ==================== НАСТРОЙКИ ====================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyeevuA1MTvQ09j-qcUWTPhArFe6k4Szilx6DB1kzEcnceA3ETJ1636AUpj8tRpldiZ8w/exec'; // вставьте сюда URL Apps Script
+        const REFRESH_INTERVAL = 60000; // 5 минут (в миллисекундах)
+
+        // Глобальные переменные для графиков (чтобы уничтожать старые)
+        let chartInstances = {
+            doughnut: null,
+            bar: null,
+            line: null
+        };
+
+        // ==================== ФУНКЦИИ ПОМОЩНИКОВ ====================
+        function formatCurrency(num) {
+            return num.toLocaleString('ru-RU') + ' ₽';
+        }
+
+        function setStatus(text, isError = false) {
+            const dot = document.querySelector('#statusIndicator .dot');
+            const statusText = document.getElementById('statusText');
+            statusText.textContent = text;
+            const container = document.getElementById('statusIndicator');
+            if (isError) {
+                container.classList.add('error');
+                dot.style.background = '#ef4444';
+            } else {
+                container.classList.remove('error');
+                dot.style.background = '#10b981';
+            }
+        }
+
+        // Парсинг даты из строки DD.MM.YYYY HH:MM:SS (как в исходной таблице)
+        function parseDate(dateStr) {
+            if (!dateStr) return new Date();
+            // ожидаем "DD.MM.YYYY HH:MM:SS" или "YYYY-MM-DDTHH:MM:SS"
+            if (dateStr.includes('T')) {
+                return new Date(dateStr);
+            }
+            const parts = dateStr.split(' ');
+            const dateParts = parts[0].split('.');
+            const timeParts = parts[1] ? parts[1].split(':') : [0,0,0];
+            return new Date(
+                parseInt(dateParts[2]), // год
+                parseInt(dateParts[1]) - 1, // месяц
+                parseInt(dateParts[0]), // день
+                parseInt(timeParts[0]) || 0,
+                parseInt(timeParts[1]) || 0,
+                parseInt(timeParts[2]) || 0
+            );
+        }
+
+        // ==================== ПОЛУЧЕНИЕ ДАННЫХ И ОТРИСОВКА ====================
+        async function fetchAndRender() {
+            setStatus('Обновление данных...', false);
+            try {
+                const response = await fetch(SCRIPT_URL);
+                if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
+                const rawData = await response.json();
+                if (!Array.isArray(rawData) || rawData.length === 0) {
+                    throw new Error('Пустой ответ от Таблицы');
+                }
+
+                const transactions = rawData.map(item => ({
+                    date: item.date,
+                    type: item.type,
+                    category: item.category,
+                    amount: Number(item.amount) || 0,
+                    dateObj: parseDate(item.date)
+                })).sort((a, b) => a.dateObj - b.dateObj);
+
+                updateDashboard(transactions);
+                setStatus(`Данные обновлены (${new Date().toLocaleTimeString()})`, false);
+            } catch (error) {
+                console.error(error);
+                setStatus(`Ошибка: ${error.message}`, true);
+            }
+        }
+
+        function updateDashboard(transactions) {
+            // ---- Расчёты ----
+            const totalIncome = transactions
+                .filter(t => t.type === 'Приход')
+                .reduce((sum, t) => sum + t.amount, 0);
+            const totalExpense = transactions
+                .filter(t => t.type === 'Расход')
+                .reduce((sum, t) => sum + t.amount, 0);
+            const balance = totalIncome - totalExpense;
+            const transactionCount = transactions.length;
+
+            // Категории расходов
+            const expenseByCategory = {};
+            transactions
+                .filter(t => t.type === 'Расход')
+                .forEach(t => {
+                    expenseByCategory[t.category] = (expenseByCategory[t.category] || 0) + t.amount;
+                });
+            const expenseCategories = Object.keys(expenseByCategory);
+            const expenseValues = Object.values(expenseByCategory);
+
+            // Группировка по дням
+            const dailyMap = {};
+            transactions.forEach(t => {
+                const dayKey = t.dateObj.toISOString().split('T')[0];
+                if (!dailyMap[dayKey]) dailyMap[dayKey] = { income: 0, expense: 0 };
+                if (t.type === 'Приход') dailyMap[dayKey].income += t.amount;
+                else dailyMap[dayKey].expense += t.amount;
+            });
+            const days = Object.keys(dailyMap).sort();
+            const dailyIncome = days.map(d => dailyMap[d].income);
+            const dailyExpense = days.map(d => dailyMap[d].expense);
+
+            // Накопительный баланс
+            let cumulative = 0;
+            const cumulativeLabels = [];
+            const cumulativeData = [];
+            transactions.forEach(t => {
+                cumulative += (t.type === 'Приход' ? t.amount : -t.amount);
+                cumulativeLabels.push(t.dateObj.toLocaleString('ru-RU', {
+                    day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+                }));
+                cumulativeData.push(cumulative);
+            });
+
+            // ---- Заполнение KPI-карточек ----
+            document.getElementById('kpiContainer').innerHTML = `
+                <div class="kpi-card income">
+                    <div class="kpi-label">💰 Общий доход</div>
+                    <div class="kpi-value">${formatCurrency(totalIncome)}</div>
+                    <div class="kpi-detail">
+                        <span>Операций прихода</span>
+                        <strong>${transactions.filter(t=>t.type==='Приход').length}</strong>
+                    </div>
+                </div>
+                <div class="kpi-card expense">
+                    <div class="kpi-label">💸 Общие расходы</div>
+                    <div class="kpi-value">${formatCurrency(totalExpense)}</div>
+                    <div class="kpi-detail">
+                        <span>Операций расхода</span>
+                        <strong>${transactions.filter(t=>t.type==='Расход').length}</strong>
+                    </div>
+                </div>
+                <div class="kpi-card balance">
+                    <div class="kpi-label">📈 Чистый баланс</div>
+                    <div class="kpi-value">${formatCurrency(balance)}</div>
+                    <div class="kpi-detail">
+                        <span>За период</span>
+                        <strong>${balance >= 0 ? 'Прибыль' : 'Убыток'}</strong>
+                    </div>
+                </div>
+                <div class="kpi-card transactions">
+                    <div class="kpi-label">📋 Всего операций</div>
+                    <div class="kpi-value">${transactionCount}</div>
+                    <div class="kpi-detail">
+                        <span>Уникальных категорий</span>
+                        <strong>${new Set(transactions.map(t=>t.category)).size}</strong>
+                    </div>
+                </div>
+            `;
+
+            // ---- Таблица последних 20 операций ----
+            const tbody = document.querySelector('#transactionTable tbody');
+            tbody.innerHTML = '';
+            const recent = transactions.slice(-20).reverse(); // последние сверху
+            recent.forEach(t => {
+                const row = document.createElement('tr');
+                row.className = t.type === 'Приход' ? 'income-row' : 'expense-row';
+                row.innerHTML = `
+                    <td>${t.dateObj.toLocaleString('ru-RU', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })}</td>
+                    <td>${t.type}</td>
+                    <td>${t.category}</td>
+                    <td><strong>${t.amount.toLocaleString('ru-RU')} ₽</strong></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // ---- Графики: уничтожаем старые и создаём новые ----
+            const palette = ['#f43f5e', '#8b5cf6', '#f59e0b', '#10b981', '#3b82f6', '#ec4899'];
+
+            // Круговая диаграмма
+            if (chartInstances.doughnut) chartInstances.doughnut.destroy();
+            const ctx1 = document.getElementById('expenseDoughnut').getContext('2d');
+            chartInstances.doughnut = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: expenseCategories,
+                    datasets: [{
+                        data: expenseValues,
+                        backgroundColor: palette.slice(0, expenseCategories.length),
+                        borderColor: 'white',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } },
+                        tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${formatCurrency(ctx.raw)}` } }
+                    }
+                }
+            });
+
+            // Столбчатая диаграмма
+            if (chartInstances.bar) chartInstances.bar.destroy();
+            const ctx2 = document.getElementById('dailyBar').getContext('2d');
+            chartInstances.bar = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: days.map(d => new Date(d).toLocaleDateString('ru-RU', { day:'numeric', month:'short' })),
+                    datasets: [
+                        { label: 'Доход', data: dailyIncome, backgroundColor: '#059669', borderRadius: 6 },
+                        { label: 'Расходы', data: dailyExpense, backgroundColor: '#dc2626', borderRadius: 6 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.raw)}` } }
+                    },
+                    scales: { y: { beginAtZero: true, ticks: { callback: (value) => value.toLocaleString('ru-RU') + ' ₽' } } }
+                }
+            });
+
+            // Линейный график накопительного баланса
+            if (chartInstances.line) chartInstances.line.destroy();
+            const ctx3 = document.getElementById('cumulativeLine').getContext('2d');
+            chartInstances.line = new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: cumulativeLabels,
+                    datasets: [{
+                        label: 'Баланс',
+                        data: cumulativeData,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { tooltip: { callbacks: { label: (ctx) => `Баланс: ${formatCurrency(ctx.raw)}` } } },
+                    scales: { y: { ticks: { callback: (value) => value.toLocaleString('ru-RU') + ' ₽' } } }
+                }
+            });
+        }
+
+        // Первая загрузка, затем интервал
+        fetchAndRender();
+        setInterval(fetchAndRender, REFRESH_INTERVAL);
+    </script>
+</body>
+</html>
