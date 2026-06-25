@@ -11,42 +11,32 @@
     <style>
         /* ================= CSS ПЕРЕМЕННЫЕ (ДИЗАЙН-СИСТЕМА) ================= */
         :root {
-            /* Нейтральные цвета (основа) */
             --bg-app: #FAFBFC;
             --bg-card: #FFFFFF;
             --bg-hover: #F0F4F8;
             --bg-subtle: #F7F9FB;
             
-            /* Текстовые цвета */
             --text-primary: #0F172A;
             --text-secondary: #475569;
             --text-tertiary: #94A3B8;
             --text-muted: #CBD5E1;
             
-            /* Границы */
             --border-light: #E0E7FF;
             --border-hover: #C7D2FE;
             
-            /* Основная палитра (монохроматическая с фиолетовым) */
-            --accent-primary: #6366F1;      /* Основной фиолетовый */
-            --accent-primary-light: #818CF8; /* Светлый фиолетовый */
-            --accent-primary-lighter: #EEF2FF; /* Очень светлый фиолетовый */
-            --accent-primary-hover: #4F46E5; /* Темный фиолетовый для hover */
-            --accent-primary-dark: #4C1D95; /* Очень темный для контраста */
+            --accent-primary: #6366F1;
+            --accent-primary-light: #818CF8;
+            --accent-primary-lighter: #EEF2FF;
+            --accent-primary-hover: #4F46E5;
+            --accent-primary-dark: #4C1D95;
             
-            /* Цвета для данных (гармоничная триада) */
-            --color-income: #10B981;        /* Зеленый - доходы */
-            --color-income-light: #D1FAE5; /* Светлый зеленый */
-            --color-expense: #EF4444;       /* Красный - расходы */
-            --color-expense-light: #FEE2E2; /* Светлый красный */
-            --color-balance: #6366F1;       /* Основной фиолетовый для остатка */
+            --color-income: #10B981;
+            --color-income-light: #D1FAE5;
+            --color-expense: #EF4444;
+            --color-expense-light: #FEE2E2;
+            --color-balance: #6366F1;
             --color-balance-light: #EEF2FF;
             
-            /* Дополнительные цвета (для градиентов и деталей) */
-            --color-accent-warm: #F59E0B;   /* Янтарный (для выделения) */
-            --color-accent-cool: #06B6D4;   /* Циан (для дополнительных элементов) */
-            
-            /* Тени (более утонченные) */
             --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
             --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px 0 rgba(15, 23, 42, 0.03);
             --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.02);
@@ -54,13 +44,11 @@
             --shadow-float: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
             --shadow-sticky: 4px 0 12px rgba(15, 23, 42, 0.03);
             
-            /* Размеры */
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
             --radius-xl: 20px;
             
-            /* Переходы */
             --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -416,7 +404,6 @@
             border-color: var(--border-hover);
         }
 
-        /* Фоновый градиент для карточек (едва видимый) */
         .card::before {
             content: '';
             position: absolute;
@@ -433,7 +420,6 @@
             z-index: 1;
         }
 
-        /* Цветные полоски сверху карточек */
         .kpi-card::after {
             content: '';
             position: absolute;
@@ -797,7 +783,6 @@
         <span>Синхронизация данных...</span>
     </div>
 
-    <!-- Date Picker Modal -->
     <div id="datePickerModal" class="date-picker-modal">
         <div class="date-picker-content">
             <div class="date-picker-header">
@@ -831,7 +816,6 @@
             </div>
             
             <div class="header-controls">
-                <!-- Десктопная версия -->
                 <div class="date-filter-group">
                     <input type="date" id="startDate" class="date-input" title="Начальная дата">
                     <span class="date-separator">→</span>
@@ -842,7 +826,6 @@
                     <span class="desktop-text">Сбросить</span>
                 </button>
 
-                <!-- Мобильная версия -->
                 <div class="date-filter-mobile">
                     <button id="dateFilterBtnMobile" class="date-filter-btn" title="Фильтр по датам">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1032,14 +1015,19 @@
                 }
 
                 if (isFirstLoad) {
-                    toast.classList.remove('show');
+                    // Исправление: находим элемент заново внутри этой функции
+                    const toast = document.getElementById('loadingToast');
+                    if (toast) toast.classList.remove('show');
                     isFirstLoad = false;
                 }
             } catch (error) {
                 console.error('Ошибка загрузки данных:', error);
                 if (isFirstLoad) {
-                    document.getElementById('loadingToast').querySelector('span').innerText = 'Ошибка соединения';
-                    document.getElementById('loadingToast').querySelector('.spinner').style.display = 'none';
+                    const toast = document.getElementById('loadingToast');
+                    if (toast) {
+                        toast.querySelector('span').innerText = 'Ошибка соединения';
+                        toast.querySelector('.spinner').style.display = 'none';
+                    }
                 }
             }
         }
@@ -1181,7 +1169,7 @@
                         <th>Итого</th>
                         <th class="val-income">${formatNumber(sumIncome)}</th>
                         <th class="val-expense">${formatNumber(sumExpense)}</th>
-                        <th class="val-balance">${formatNumber(sumBalance)}</th>
+                        <th><span class="val-balance">${formatNumber(sumBalance)}</span></th>
                         ${EXPENSE_CATEGORIES.map(c => `<th>${formatNumber(sumCats[c])}</th>`).join('')}
                     </tr>
                 </thead>
