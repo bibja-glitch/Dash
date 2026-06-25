@@ -11,33 +11,58 @@
     <style>
         /* ================= CSS ПЕРЕМЕННЫЕ (ДИЗАЙН-СИСТЕМА) ================= */
         :root {
-            --bg-app: #F9FAFB;
+            /* Нейтральные цвета (основа) */
+            --bg-app: #FAFBFC;
             --bg-card: #FFFFFF;
-            --bg-hover: #F3F4F6;
+            --bg-hover: #F0F4F8;
+            --bg-subtle: #F7F9FB;
             
+            /* Текстовые цвета */
             --text-primary: #0F172A;
-            --text-secondary: #64748B;
+            --text-secondary: #475569;
             --text-tertiary: #94A3B8;
+            --text-muted: #CBD5E1;
             
-            --border-light: #E2E8F0;
-            --border-hover: #CBD5E1;
+            /* Границы */
+            --border-light: #E0E7FF;
+            --border-hover: #C7D2FE;
             
-            --accent-primary: #6366F1; /* Indigo (Stripe/Linear style) */
-            --accent-primary-hover: #4F46E5;
-            --color-income: #10B981; /* Emerald */
-            --color-expense: #F43F5E; /* Rose */
-            --color-balance: #0EA5E9; /* Sky */
+            /* Основная палитра (монохроматическая с фиолетовым) */
+            --accent-primary: #6366F1;      /* Основной фиолетовый */
+            --accent-primary-light: #818CF8; /* Светлый фиолетовый */
+            --accent-primary-lighter: #EEF2FF; /* Очень светлый фиолетовый */
+            --accent-primary-hover: #4F46E5; /* Темный фиолетовый для hover */
+            --accent-primary-dark: #4C1D95; /* Очень темный для контраста */
             
-            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
-            --shadow-float: 0 12px 24px -4px rgba(15, 23, 42, 0.06);
+            /* Цвета для данных (гармоничная триада) */
+            --color-income: #10B981;        /* Зеленый - доходы */
+            --color-income-light: #D1FAE5; /* Светлый зеленый */
+            --color-expense: #EF4444;       /* Красный - расходы */
+            --color-expense-light: #FEE2E2; /* Светлый красный */
+            --color-balance: #6366F1;       /* Основной фиолетовый для остатка */
+            --color-balance-light: #EEF2FF;
+            
+            /* Дополнительные цвета (для градиентов и деталей) */
+            --color-accent-warm: #F59E0B;   /* Янтарный (для выделения) */
+            --color-accent-cool: #06B6D4;   /* Циан (для дополнительных элементов) */
+            
+            /* Тени (более утонченные) */
+            --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+            --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.02);
+            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+            --shadow-float: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
             --shadow-sticky: 4px 0 12px rgba(15, 23, 42, 0.03);
             
+            /* Размеры */
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
+            --radius-xl: 20px;
             
+            /* Переходы */
             --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* ================= БАЗОВЫЕ СТИЛИ ================= */
@@ -50,12 +75,13 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-app);
+            background: linear-gradient(135deg, var(--bg-app) 0%, var(--accent-primary-lighter) 100%);
             color: var(--text-primary);
             padding: 24px;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
         }
 
         .dashboard {
@@ -73,6 +99,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 20px;
+            margin-bottom: 8px;
         }
 
         .brand {
@@ -82,22 +109,26 @@
         }
         
         .brand-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-hover) 100%);
             color: white;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-            box-shadow: var(--shadow-sm);
+            font-size: 20px;
+            box-shadow: var(--shadow-md);
         }
 
         .header h1 {
             font-size: 24px;
             font-weight: 700;
             letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header-controls {
@@ -110,7 +141,7 @@
             display: flex;
             align-items: center;
             background: var(--bg-card);
-            padding: 6px;
+            padding: 8px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-light);
             box-shadow: var(--shadow-sm);
@@ -119,7 +150,8 @@
 
         .date-filter-group:focus-within {
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(238, 242, 255, 0.95) 100%);
+            box-shadow: 0 0 0 3px var(--accent-primary-lighter);
         }
 
         .date-input {
@@ -133,7 +165,7 @@
             cursor: pointer;
             outline: none;
             border-radius: var(--radius-sm);
-            transition: var(--transition-smooth);
+            transition: var(--transition-fast);
         }
 
         .date-input:hover {
@@ -142,7 +174,8 @@
 
         .date-separator {
             color: var(--text-tertiary);
-            padding: 0 4px;
+            padding: 0 8px;
+            font-weight: 500;
         }
 
         .btn-clear {
@@ -157,12 +190,200 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: var(--transition-smooth);
+            transition: var(--transition-fast);
         }
 
         .btn-clear:hover {
-            background: #FEE2E2;
+            background: var(--color-expense-light);
             color: var(--color-expense);
+        }
+
+        /* ================= МОБИЛЬНАЯ КНОПКА КАЛЕНДАРЯ ================= */
+        .date-filter-mobile {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .date-filter-btn {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border-light);
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-subtle) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .date-filter-btn:active {
+            background: linear-gradient(135deg, var(--accent-primary-lighter) 0%, var(--bg-card) 100%);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-primary-lighter);
+        }
+
+        .date-filter-btn svg {
+            color: var(--accent-primary);
+            stroke-width: 2;
+        }
+
+        /* ================= DATE PICKER MODAL ================= */
+        .date-picker-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(6px);
+            z-index: 9998;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .date-picker-modal.open {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .date-picker-content {
+            background: var(--bg-card);
+            width: 100%;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px 32px;
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .date-picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .date-picker-title {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .date-picker-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            border-radius: var(--radius-sm);
+        }
+
+        .date-picker-close:active {
+            color: var(--accent-primary);
+            background: var(--accent-primary-lighter);
+        }
+
+        .date-picker-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .date-picker-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .date-picker-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .date-picker-input {
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-family: inherit;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--bg-subtle) 0%, var(--bg-card) 100%);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .date-picker-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px var(--accent-primary-lighter);
+        }
+
+        .date-picker-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .date-picker-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .date-picker-btn-cancel {
+            background: var(--bg-hover);
+            color: var(--text-secondary);
+        }
+
+        .date-picker-btn-cancel:active {
+            background: var(--border-light);
+            color: var(--text-primary);
+        }
+
+        .date-picker-btn-apply {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-hover) 100%);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .date-picker-btn-apply:active {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-1px);
         }
 
         /* ================= KPI КАРТОЧКИ ================= */
@@ -182,70 +403,100 @@
             background: var(--bg-card);
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
             padding: 24px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
         }
         
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-float);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border-hover);
+        }
+
+        /* Фоновый градиент для карточек (едва видимый) */
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(99, 102, 241, 0.02) 100%);
+            pointer-events: none;
         }
 
         .kpi-card {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
             position: relative;
-            overflow: hidden;
+            z-index: 1;
         }
 
-        /* Акцентные полоски сверху карточек */
-        .kpi-card::before {
+        /* Цветные полоски сверху карточек */
+        .kpi-card::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 4px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            background: var(--bar-color, var(--accent-primary));
         }
-        .kpi-card.income::before { background: var(--color-income); }
-        .kpi-card.expense::before { background: var(--color-expense); }
-        .kpi-card.balance::before { background: var(--accent-primary); }
+        
+        .kpi-card.income::after { background: linear-gradient(90deg, var(--color-income) 0%, #34D399 100%); }
+        .kpi-card.expense::after { background: linear-gradient(90deg, var(--color-expense) 0%, #FC5C65 100%); }
+        .kpi-card.balance::after { background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-primary-light) 100%); }
 
         .kpi-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+        }
+
+        .kpi-label svg {
+            opacity: 0.6;
         }
 
         .kpi-value {
             font-size: 32px;
             font-weight: 700;
             letter-spacing: -0.02em;
-            font-variant-numeric: tabular-nums; /* Ровные цифры */
+            font-variant-numeric: tabular-nums;
             color: var(--text-primary);
         }
 
         .val-income { color: var(--color-income) !important; }
         .val-expense { color: var(--color-expense) !important; }
+        .val-balance { background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-dark) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         /* ================= ТОП РАСХОДОВ ================= */
         .top-expenses-card {
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
         }
 
         .section-title {
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            color: var(--text-primary);
+        }
+
+        .section-title svg {
+            color: var(--accent-primary);
+            opacity: 0.8;
         }
 
         .expense-list {
@@ -257,7 +508,15 @@
         .expense-item {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--bg-subtle) 0%, transparent 100%);
+            transition: var(--transition-fast);
+        }
+
+        .expense-item:hover {
+            background: var(--bg-hover);
         }
 
         .expense-meta {
@@ -271,14 +530,14 @@
         .expense-val { color: var(--text-primary); font-variant-numeric: tabular-nums; font-weight: 600; }
 
         .expense-bar-bg {
-            background: var(--bg-hover);
+            background: linear-gradient(90deg, var(--color-expense-light) 0%, var(--bg-hover) 100%);
             height: 8px;
             border-radius: 999px;
             overflow: hidden;
         }
 
         .expense-bar-fill {
-            background: linear-gradient(90deg, #FB7185, var(--color-expense));
+            background: linear-gradient(90deg, var(--color-expense) 0%, #FC6B7A 100%);
             height: 100%;
             border-radius: 999px;
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -295,7 +554,7 @@
         .table-header-wrapper {
             padding: 20px 24px;
             border-bottom: 1px solid var(--border-light);
-            background: var(--bg-card);
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-subtle) 100%);
         }
 
         .table-wrapper {
@@ -318,16 +577,15 @@
             z-index: 20;
         }
 
-        /* Glassmorphism для шапки таблицы */
         th {
-            background: rgba(255, 255, 255, 0.9);
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(238, 242, 255, 0.95) 100%);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             color: var(--text-secondary);
             font-weight: 600;
             font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             padding: 16px 20px;
             text-align: right;
             border-bottom: 1px solid var(--border-light);
@@ -341,10 +599,9 @@
             border-bottom: 1px solid var(--bg-hover);
             color: var(--text-primary);
             font-variant-numeric: tabular-nums;
-            transition: background 0.2s;
+            transition: background var(--transition-fast);
         }
 
-        /* Закрепление первого столбца */
         th:first-child, td:first-child {
             position: sticky;
             left: 0;
@@ -352,27 +609,27 @@
             z-index: 10;
         }
         
-        /* Особый стиль для закрепленных ячеек для избежания прозрачности */
         td:first-child {
             background: var(--bg-card);
             font-weight: 500;
             color: var(--text-secondary);
         }
         
-        th:first-child { z-index: 30; } /* Выше остальных */
+        th:first-child { z-index: 30; }
 
-        /* Тень при горизонтальном скролле */
         th:first-child::after, td:first-child::after {
             content: '';
             position: absolute;
-            top: 0; right: 0; bottom: 0; width: 1px;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 1px;
             background: var(--border-light);
             box-shadow: var(--shadow-sticky);
         }
 
-        /* Итоговая строка */
         .total-row th {
-            background: var(--bg-app);
+            background: linear-gradient(135deg, var(--accent-primary-lighter) 0%, var(--bg-hover) 100%);
             color: var(--text-primary);
             font-size: 14px;
             font-weight: 700;
@@ -380,24 +637,23 @@
             letter-spacing: 0;
             border-bottom: 2px solid var(--border-hover);
         }
-        .total-row th:first-child { background: var(--bg-app); z-index: 30;}
+        .total-row th:first-child { background: linear-gradient(135deg, var(--accent-primary-lighter) 0%, var(--bg-hover) 100%); z-index: 30;}
 
-        /* Эффект наведения на строки */
         tbody tr:hover td {
-            background-color: #F8FAFC;
+            background-color: linear-gradient(90deg, var(--bg-subtle) 0%, transparent 100%);
         }
         tbody tr:hover td:first-child {
-            background-color: #F8FAFC;
+            background-color: var(--bg-subtle);
         }
 
-        /* ================= SKELETON LOADING (АНИМАЦИИ) ================= */
+        /* ================= SKELETON LOADING ================= */
         @keyframes shimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
 
         .skeleton {
-            background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+            background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-light) 50%, var(--bg-hover) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite linear;
             border-radius: var(--radius-sm);
@@ -412,12 +668,12 @@
             margin-bottom: 8px;
         }
 
-        /* Скрытый изначальный загрузчик заменен на элегантный toast */
+        /* Loading Toast */
         #loadingToast {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: var(--text-primary);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary-dark) 100%);
             color: white;
             padding: 12px 24px;
             border-radius: 100px;
@@ -426,7 +682,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: var(--shadow-float);
+            box-shadow: var(--shadow-lg);
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -439,7 +695,8 @@
         }
 
         .spinner {
-            width: 16px; height: 16px;
+            width: 16px;
+            height: 16px;
             border: 2px solid rgba(255,255,255,0.3);
             border-top-color: white;
             border-radius: 50%;
@@ -447,7 +704,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ================= МОБИЛЬНАЯ АДАПТАЦИЯ (MOBILE FIRST FEEL) ================= */
+        /* ================= МОБИЛЬНАЯ АДАПТАЦИЯ ================= */
         @media (max-width: 1024px) {
             .top-layout { grid-template-columns: 1fr; }
         }
@@ -456,35 +713,39 @@
             body { padding: 12px; }
             .dashboard { gap: 16px; }
             
-            .header { margin-bottom: 8px; flex-direction: column; align-items: stretch; gap: 16px; }
+            .header { 
+                margin-bottom: 8px; 
+                flex-direction: column; 
+                align-items: stretch; 
+                gap: 12px; 
+            }
             .brand { justify-content: center; }
             .header h1 { font-size: 22px; }
             
-            .header-controls { flex-direction: column; width: 100%; }
-            .date-filter-group { 
-                width: 100%; 
-                padding: 4px; 
-                display: grid;
-                grid-template-columns: 1fr auto 1fr;
+            .header-controls { 
+                flex-direction: row;
+                width: 100%;
+                gap: 8px;
             }
-            .date-input { 
-                width: 100%; 
-                text-align: center; 
-                padding: 12px 8px; /* Удобно для пальца */
-                font-size: 15px;
-                background: var(--bg-hover);
+
+            .date-filter-group {
+                display: none;
             }
-            .btn-clear { 
-                width: 100%; 
-                justify-content: center; 
-                padding: 14px; 
-                background: #FEE2E2; 
-                color: var(--color-expense);
-                margin-top: 8px;
-                font-weight: 600;
+
+            .btn-clear {
+                display: none;
             }
-            .btn-clear .desktop-text { display: none; }
-            .btn-clear::after { content: 'Очистить фильтр'; }
+
+            .date-filter-mobile {
+                display: flex;
+                width: 100%;
+            }
+
+            .date-filter-btn {
+                width: 48px;
+                height: 48px;
+                flex-shrink: 0;
+            }
 
             .kpi-grid { grid-template-columns: 1fr; gap: 12px; }
             .kpi-card { 
@@ -493,14 +754,39 @@
                 justify-content: space-between; 
                 align-items: center;
             }
-            .kpi-card::before {
-                width: 4px; height: 100%; top: 0; left: 0;
+            .kpi-card::after {
+                width: 4px;
+                height: 100%;
+                top: 0;
+                left: 0;
+                border-radius: 0;
             }
             .kpi-value { font-size: 24px; }
             
             .card { padding: 16px; border-radius: 16px; }
             .table-header-wrapper { padding: 16px; }
             th, td { padding: 14px 16px; font-size: 13px; }
+
+            .date-picker-content {
+                border-radius: 24px 24px 0 0;
+                padding: 20px 16px 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 8px; }
+            .header h1 { font-size: 20px; }
+            
+            .kpi-value { font-size: 20px; }
+            .card { padding: 12px; }
+            
+            .date-picker-actions {
+                flex-direction: column-reverse;
+            }
+
+            .date-picker-btn {
+                padding: 14px 16px;
+            }
         }
     </style>
 </head>
@@ -509,6 +795,30 @@
     <div id="loadingToast">
         <div class="spinner"></div>
         <span>Синхронизация данных...</span>
+    </div>
+
+    <!-- Date Picker Modal -->
+    <div id="datePickerModal" class="date-picker-modal">
+        <div class="date-picker-content">
+            <div class="date-picker-header">
+                <div class="date-picker-title">Выбрать период</div>
+                <button class="date-picker-close" id="datePickerCloseBtn">✕</button>
+            </div>
+            <div class="date-picker-fields">
+                <div class="date-picker-field">
+                    <label class="date-picker-label">Дата от</label>
+                    <input type="date" id="startDateModal" class="date-picker-input">
+                </div>
+                <div class="date-picker-field">
+                    <label class="date-picker-label">Дата до</label>
+                    <input type="date" id="endDateModal" class="date-picker-input">
+                </div>
+            </div>
+            <div class="date-picker-actions">
+                <button id="datePickerApplyBtn" class="date-picker-btn date-picker-btn-apply">Применить</button>
+                <button id="datePickerCancelBtn" class="date-picker-btn date-picker-btn-cancel">Сбросить</button>
+            </div>
+        </div>
     </div>
 
     <div class="dashboard">
@@ -521,6 +831,7 @@
             </div>
             
             <div class="header-controls">
+                <!-- Десктопная версия -->
                 <div class="date-filter-group">
                     <input type="date" id="startDate" class="date-input" title="Начальная дата">
                     <span class="date-separator">→</span>
@@ -530,28 +841,49 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     <span class="desktop-text">Сбросить</span>
                 </button>
+
+                <!-- Мобильная версия -->
+                <div class="date-filter-mobile">
+                    <button id="dateFilterBtnMobile" class="date-filter-btn" title="Фильтр по датам">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                            <path d="M16 2v4"/>
+                            <path d="M8 2v4"/>
+                            <path d="M3 10h18"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
 
         <div class="top-layout">
             <div class="kpi-grid">
                 <div class="card kpi-card income">
-                    <div class="kpi-label">Доходы</div>
+                    <div class="kpi-label">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a4 4 0 0 0 0 8h5a4 4 0 0 1 0 8H6"/></svg>
+                        Доходы
+                    </div>
                     <div class="kpi-value val-income skeleton" id="kpiIncome">000 000 ₸</div>
                 </div>
                 <div class="card kpi-card expense">
-                    <div class="kpi-label">Расходы</div>
+                    <div class="kpi-label">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><path d="M19.07 4.93a10 10 0 0 0-14.14 0M5.64 5.64a10 10 0 0 1 12.72 0"/><circle cx="12" cy="12" r="8"/></svg>
+                        Расходы
+                    </div>
                     <div class="kpi-value val-expense skeleton" id="kpiExpense">000 000 ₸</div>
                 </div>
                 <div class="card kpi-card balance">
-                    <div class="kpi-label">Чистая прибыль</div>
-                    <div class="kpi-value skeleton" id="kpiBalance">000 000 ₸</div>
+                    <div class="kpi-label">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"/><polyline points="12 12 20 7.5"/><polyline points="12 12 12 21"/><polyline points="12 12 4 7.5"/></svg>
+                        Остаток
+                    </div>
+                    <div class="kpi-value val-balance skeleton" id="kpiBalance">000 000 ₸</div>
                 </div>
             </div>
             
             <div class="card top-expenses-card">
                 <div class="section-title">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary);"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     Топ 5 расходов
                 </div>
                 <div class="expense-list" id="topExpensesList">
@@ -565,7 +897,7 @@
         <div class="card table-card">
             <div class="table-header-wrapper">
                 <div class="section-title" style="margin: 0;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary);"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
                     Операции по дням
                 </div>
             </div>
@@ -601,7 +933,6 @@
         let isFirstLoad = true;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Toast показ
             const toast = document.getElementById('loadingToast');
             toast.classList.add('show');
 
@@ -610,6 +941,46 @@
             document.getElementById('clearDateBtn').addEventListener('click', () => {
                 document.getElementById('startDate').value = '';
                 document.getElementById('endDate').value = '';
+                applyFilter();
+            });
+
+            const datePickerModal = document.getElementById('datePickerModal');
+            const dateFilterBtn = document.getElementById('dateFilterBtnMobile');
+            const datePickerCloseBtn = document.getElementById('datePickerCloseBtn');
+            const datePickerApplyBtn = document.getElementById('datePickerApplyBtn');
+            const datePickerCancelBtn = document.getElementById('datePickerCancelBtn');
+            const startDateModal = document.getElementById('startDateModal');
+            const endDateModal = document.getElementById('endDateModal');
+
+            dateFilterBtn.addEventListener('click', () => {
+                startDateModal.value = document.getElementById('startDate').value;
+                endDateModal.value = document.getElementById('endDate').value;
+                datePickerModal.classList.add('open');
+            });
+
+            datePickerCloseBtn.addEventListener('click', () => {
+                datePickerModal.classList.remove('open');
+            });
+
+            datePickerModal.addEventListener('click', (e) => {
+                if (e.target === datePickerModal) {
+                    datePickerModal.classList.remove('open');
+                }
+            });
+
+            datePickerApplyBtn.addEventListener('click', () => {
+                document.getElementById('startDate').value = startDateModal.value;
+                document.getElementById('endDate').value = endDateModal.value;
+                datePickerModal.classList.remove('open');
+                applyFilter();
+            });
+
+            datePickerCancelBtn.addEventListener('click', () => {
+                document.getElementById('startDate').value = '';
+                document.getElementById('endDate').value = '';
+                startDateModal.value = '';
+                endDateModal.value = '';
+                datePickerModal.classList.remove('open');
                 applyFilter();
             });
 
@@ -661,7 +1032,6 @@
                 }
 
                 if (isFirstLoad) {
-                    const toast = document.getElementById('loadingToast');
                     toast.classList.remove('show');
                     isFirstLoad = false;
                 }
@@ -710,7 +1080,6 @@
             });
             const balance = totalIncome - totalExpense;
 
-            // Обновляем KPI и снимаем классы skeleton
             const kpiInc = document.getElementById('kpiIncome');
             const kpiExp = document.getElementById('kpiExpense');
             const kpiBal = document.getElementById('kpiBalance');
@@ -723,16 +1092,9 @@
             kpiExp.textContent = formatCurrency(totalExpense);
             kpiBal.textContent = formatCurrency(balance);
             
-            // Цвет баланса: зеленый если плюс, красный если минус
-            if (balance >= 0) {
-                kpiBal.classList.add('val-income');
-                kpiBal.classList.remove('val-expense');
-            } else {
-                kpiBal.classList.add('val-expense');
-                kpiBal.classList.remove('val-income');
-            }
+            kpiBal.classList.add('val-balance');
+            kpiBal.classList.remove('val-income', 'val-expense');
 
-            // Топ-5 расходов
             const sortedExpenses = Object.entries(expenseByCategory)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 5);
@@ -763,7 +1125,6 @@
             }
             topExpensesList.innerHTML = topHtml;
 
-            // Группировка данных для таблицы
             const dailyMap = {};
             transactions.forEach(t => {
                 const dateStr = t.dateObj.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -793,7 +1154,6 @@
 
             const dailyArray = Object.values(dailyMap).sort((a, b) => b.dateObj - a.dateObj);
 
-            // Подсчет Итого
             let sumIncome = 0;
             let sumExpense = 0;
             let sumCats = {};
@@ -808,7 +1168,6 @@
 
             let table = document.getElementById('transactionTable');
             
-            // Построение таблицы (шапка)
             let theadHTML = `
                 <thead>
                     <tr>
@@ -822,14 +1181,13 @@
                         <th>Итого</th>
                         <th class="val-income">${formatNumber(sumIncome)}</th>
                         <th class="val-expense">${formatNumber(sumExpense)}</th>
-                        <th class="${sumBalance >= 0 ? 'val-income' : 'val-expense'}">${formatNumber(sumBalance)}</th>
+                        <th class="val-balance">${formatNumber(sumBalance)}</th>
                         ${EXPENSE_CATEGORIES.map(c => `<th>${formatNumber(sumCats[c])}</th>`).join('')}
                     </tr>
                 </thead>
                 <tbody>
             `;
 
-            // Построение таблицы (тело)
             let tbodyHTML = '';
             if (dailyArray.length === 0) {
                 tbodyHTML = `<tr><td colspan="${4 + EXPENSE_CATEGORIES.length}" style="text-align:center; padding: 40px; color: var(--text-tertiary);">Нет операций за выбранный период</td></tr>`;
@@ -841,7 +1199,7 @@
                             <td>${day.dateStr}</td>
                             <td class="val-income">${formatNumber(day.income)}</td>
                             <td class="val-expense">${formatNumber(day.expense)}</td>
-                            <td class="${dayBalance >= 0 ? 'val-income' : 'val-expense'}" style="font-weight: 600;">${formatNumber(dayBalance)}</td>
+                            <td class="val-balance" style="font-weight: 600;">${formatNumber(dayBalance)}</td>
                             ${EXPENSE_CATEGORIES.map(c => `<td>${formatNumber(day.cats[c])}</td>`).join('')}
                         </tr>
                     `;
@@ -849,10 +1207,8 @@
             }
             tbodyHTML += `</tbody>`;
             
-            // Вставляем сгенерированный HTML (скелетоны автоматически заменятся на данные)
             table.innerHTML = theadHTML + tbodyHTML;
 
-            // Восстановление позиции прокрутки (плавный UX при фоновом обновлении)
             if (tableWrapper) {
                 tableWrapper.scrollTop = scrollTop;
                 tableWrapper.scrollLeft = scrollLeft;
