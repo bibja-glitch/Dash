@@ -1,6 +1,0 @@
-{
-  "name": "Evrozabor Luxe Finance",
-  "description": "Progressive Web App (PWA) for managing finances and tracking expenses of Evrozabor Luxe.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
